@@ -1,11 +1,8 @@
 package lesson_4;
 
-
 import java.util.Arrays;
 
-
 public class lesson_4 {
-
 
     public static void main(String[] args) {
         printThreeWords();
@@ -49,7 +46,7 @@ public class lesson_4 {
             System.out.println("Красный");
         if (value > 0 && value <= 100)
             System.out.println("Желтый");
-        else if (value > 100)
+        else
             System.out.println("Зеленый");
     }
 
@@ -63,8 +60,7 @@ public class lesson_4 {
     }
 
     public static boolean amountInBounds(int a, int b) {
-        int amount = a + b;
-        return amount >= 10 && amount <= 20;
+        return (a + b) >= 10 && (a + b) <= 20;
     }
 
     public static void determiningMethod(int number) {
@@ -99,11 +95,7 @@ public class lesson_4 {
     public static void arrayMassive() {
         int[] arr10 = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         for (int i = 0; i < arr10.length; i++) {
-            if (arr10[i] == 0) {
-                arr10[i] = 1;
-            } else {
-                arr10[i] = 0;
-            }
+            arr10[i] = 1 - arr10[i];
         }
         System.out.println(Arrays.toString(arr10));
     }
@@ -143,7 +135,6 @@ public class lesson_4 {
         }
         return arg1;
     }
-
 }
 
 
