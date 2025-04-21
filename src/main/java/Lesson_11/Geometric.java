@@ -1,17 +1,14 @@
-package Lesson_11;
-
 interface Shape {
     double getPerimeter();
     double getArea();
     String getFillColor();
     String getBorderColor();
 }
-class Circle implements Shape {
+public class Geometric implements Shape {
     private double radius;
     private String fillColor;
     private String borderColor;
-
-    public Circle(double radius, String fillColor, String borderColor) {
+    public Geometric(double radius, String fillColor, String borderColor) {
         this.radius = radius;
         this.fillColor = fillColor;
         this.borderColor = borderColor;
@@ -75,12 +72,12 @@ class Triangle implements Shape {
         return borderColor;
     }
 }
-public class Geometric {
+class App {
     public static void main(String[] args) {
         Shape[] shapes = {
-                new Circle(42, "Белый", "Черный"),
-                new Rectangle(12, 52, "Красный", "Черный"),
-                new Triangle(33, 12, 111, "Зеленый", "Черный")
+                new Geometric(43, "Белый", "Черный"),
+                new Rectangle(13, 53, "Красный", "Черный"),
+                new Triangle(32, 11, 110, "Зеленый", "Черный")
         };
         for (Shape shape : shapes) {
             System.out.println("Фигура: " + shape.getClass().getSimpleName());

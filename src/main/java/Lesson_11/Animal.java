@@ -1,9 +1,7 @@
-package Lesson_11;
-
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class Animal {
+public abstract class Animal {
     protected static int animalCount = 0;
     protected String name;
     public Animal(String name) {
@@ -97,7 +95,7 @@ class Bowl {
         }
     }
 }
-public class Main {
+class Animals {
     public static void main(String[] args) {
         Dog dog = new Dog("Лупа");
         Cat cat = new Cat("Пупа");
@@ -117,17 +115,13 @@ public class Main {
         cats.add(new Cat("Элли"));
         cats.add(new Cat("Дина"));
         cats.add(new Cat("Эбби"));
-
         for (Cat c : cats) {
             c.eatFromBowl(bowl, 20);
         }
-
         System.out.println("Осталось еды в миске: " + bowl.getFoodAmount() + " г.");
-
         for (Cat c : cats) {
             System.out.println(c.name + " сыт: " + c.isFull());
         }
-
         bowl.addFood(30);
     }
 }
