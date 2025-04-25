@@ -1,5 +1,8 @@
 package org;
 
+import Lesson_12.MyArrayDataException;
+import Lesson_12.MyArraySizeException;
+
 public class Array {
     public static int processArray(String[][] array) throws MyArraySizeException, MyArrayDataException {
         if (array.length != 4 || array[0].length != 4)
@@ -18,14 +21,5 @@ public class Array {
         }
         return sum;
     }
-    public static class MyArraySizeException extends Exception {
-        public MyArraySizeException(String message) {
-            super(message);
-        }
-    }
-    public static class MyArrayDataException extends Exception {
-        public MyArrayDataException(String message) {
-            super(message);
-        }
-    }
+
 }

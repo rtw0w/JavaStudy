@@ -1,5 +1,8 @@
 package org;
 
+import Lesson_12.MyArrayDataException;
+import Lesson_12.MyArraySizeException;
+
 public class Main {
     public static void main(String[] args) {
         String[][] correctArray = {
@@ -21,7 +24,7 @@ public class Main {
         try {
             int sum = org.Array.processArray(correctArray);
             System.out.println("Сумма: " + sum);
-        } catch (org.Array.MyArraySizeException | org.Array.MyArrayDataException e) {
+        } catch (MyArraySizeException | MyArrayDataException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
         try {
