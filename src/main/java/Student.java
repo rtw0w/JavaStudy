@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class Student {
     private String name;
     private String group;
@@ -11,24 +12,31 @@ public class Student {
         this.course = course;
         this.grades = new HashMap<>(grades);
     }
+
     public String getName() {
         return name;
     }
+
     public String getGroup() {
         return group;
     }
+
     public int getCourse() {
         return course;
     }
+
     public void setCourse(int course) {
         this.course = course;
     }
+
     public Map<String, Integer> getGrades() {
         return new HashMap<>(grades);
     }
+
     public void addGrade(String subject, int grade) {
         grades.put(subject, grade);
     }
+
     public double getAverageGrade() {
         if (grades.isEmpty()) {
             return 0.0;
@@ -65,5 +73,3 @@ public class Student {
     }
 
 }
-
-

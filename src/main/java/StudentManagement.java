@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.Set;
 
 public class StudentManagement {
-    public static void removeLowAchievers(Set<Student> students) {
+    public void removeLowAchievers(Set<Student> students) {
         students.removeIf(student -> student.getAverageGrade() < 3);
     }
 
-    public static void promoteStudents(Set<Student> students) {
+    public void promoteStudents(Set<Student> students) {
         for (Student student : students) {
             if (student.getAverageGrade() >= 3) {
                 student.setCourse(student.getCourse() + 1);
@@ -16,7 +16,7 @@ public class StudentManagement {
         }
     }
 
-    public static void printStudents(Set<Student> students, int course) {
+    public void printStudents(Set<Student> students, int course) {
         System.out.println("Студенты " + course + " курса:");
         for (Student student : students) {
             if (student.getCourse() == course) {
@@ -25,7 +25,7 @@ public class StudentManagement {
         }
     }
 
-    public static void main(String[] args) {
+    public void main() {
         Set<Student> students = new HashSet<>();
 
         Map<String, Integer> grades1 = new HashMap<>();
@@ -75,5 +75,10 @@ public class StudentManagement {
         }
 
         printStudents(students, 2);
+    }
+
+    public static void main(String[] args) {
+        StudentManagement manager = new StudentManagement();
+        manager.main();
     }
 }
