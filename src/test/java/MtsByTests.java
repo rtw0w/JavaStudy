@@ -45,8 +45,21 @@ public class MtsByTests {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(BASE_URL);
         logger.info("Открыт сайт: {}", BASE_URL);
+        acceptCookies();
         homePage = new org.HomePage(driver);
         paymentPage = new org.PaymentPage(driver);
+    }
+
+    @Step("Принятие Cookie")
+    private void acceptCookies() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("cookie-accept")));
+            acceptButton.click();
+            logger.info("Cookie приняты.");
+        } catch (Exception e) {
+            logger.warn("Кнопка принятия Cookie не найдена или возникла ошибка: {}", e.getMessage());
+        }
     }
 
     @AfterEach
