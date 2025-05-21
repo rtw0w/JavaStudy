@@ -1,4 +1,6 @@
 package org;
+
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -6,10 +8,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
 public class HomePage {
+
+    private static final Logger logger = LoggerFactory.getLogger(HomePage.class);
     private final WebDriver driver;
     private final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
 
@@ -22,85 +28,97 @@ public class HomePage {
     @FindBy(linkText = "Подробнее о сервисе")
     private WebElement serviceDetailsLink;
 
-    @FindBy(xpath = "//select[@name='paymentService']")
+    @FindBy(id = "onlPay")
     private WebElement serviceTypeDropdown;
 
     @FindBy(xpath = "//option[text()='Услуги связи']")
     private WebElement serviceOption;
 
-    @FindBy(xpath = "//input[@name='msisdn']")
+    @FindBy(name = "msisdn")
     private WebElement phoneNumberField;
 
     @FindBy(xpath = "//button[text()='Продолжить']")
     private WebElement continueButton;
 
     //Локаторы для проверки надписей в незаполненных полях для разных вариантов оплаты
-    private final By uslugiSvyaziPhoneNumberPlaceholder = By.xpath("//input[@name='msisdn' and @placeholder='Номер телефона']");
-    private final By domashniyInternetContractPlaceholder = By.xpath("//input[@name='accountNumber' and @placeholder='Номер договора']");
-    private final By rassrochkaContractPlaceholder = By.xpath("//input[@name='contractNumber' and @placeholder='Номер договора']");
-    private final By zadolzhennostAccountNumberPlaceholder = By.xpath("//input[@name='accountNumber' and @placeholder='Номер лицевого счёта']");
+    private final By uslugiSvyaziPhoneNumberPlaceholder = By.name("msisdn");
+    private final By domashniyInternetContractPlaceholder = By.cssSelector("input[name='accountNumber'][placeholder='Номер договора']");
+    private final By rassrochkaContractPlaceholder = By.cssSelector("input[name='contractNumber'][placeholder='Номер договора']");
+    private final By zadolzhennostAccountNumberPlaceholder = By.cssSelector("input[name='accountNumber'][placeholder='Номер лицевого счёта']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        logger.debug("Инициализирован HomePage");
     }
 
     public String getOnlineRechargeBlockTitle() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT)
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT)
                 .until(ExpectedConditions.visibilityOf(onlineRechargeBlockTitle));
-        return onlineRechargeBlockTitle.getText();
+        logger.debug("Заголовок блока: {}", element.getText());
+        return element.getText();
     }
 
     public WebElement getPaymentSystemsContainer() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT)
-                .until(ExpectedConditions.visibilityOf(paymentSystemsContainer));
-        return paymentSystemsContainer;
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT)
+                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".payment-systems")));
+        return element;
     }
 
     public void clickServiceDetailsLink() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT)
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT)
                 .until(ExpectedConditions.elementToBeClickable(serviceDetailsLink));
         serviceDetailsLink.click();
+        logger.debug("Клик по ссылке 'Подробнее о сервисе'");
     }
 
     public void selectServiceType() {
         new WebDriverWait(driver, DEFAULT_TIMEOUT)
-                .until(ExpectedConditions.elementToBeClickable(serviceTypeDropdown));
-        serviceTypeDropdown.click();
+                .until(ExpectedConditions.elementToBeClickable(serviceTypeDropdown)).click();
 
         new WebDriverWait(driver, DEFAULT_TIMEOUT)
-                .until(ExpectedConditions.elementToBeClickable(serviceOption));
-        serviceOption.click();
+                .until(ExpectedConditions.elementToBeClickable(serviceOption)).click();
+        logger.debug("Выбран тип сервиса: Услуги связи");
     }
 
     public void enterPhoneNumber(String phoneNumber) {
         new WebDriverWait(driver, DEFAULT_TIMEOUT)
-                .until(ExpectedConditions.visibilityOf(phoneNumberField));
-        phoneNumberField.sendKeys(phoneNumber);
+                .until(ExpectedConditions.visibilityOf(phoneNumberField)).sendKeys(phoneNumber);
+        logger.debug("Введен номер телефона: {}", phoneNumber);
     }
 
     public void clickContinueButton() {
         new WebDriverWait(driver, DEFAULT_TIMEOUT)
-                .until(ExpectedConditions.elementToBeClickable(continueButton));
-        continueButton.click();
+                .until(ExpectedConditions.elementToBeClickable(continueButton)).click();
+        logger.debug("Нажата кнопка 'Продолжить'");
     }
 
     public String getUslugiSvyaziPhoneNumberPlaceholder() {
-        return driver.findElement(uslugiSvyaziPhoneNumberPlaceholder).getAttribute("placeholder");
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(uslugiSvyaziPhoneNumberPlaceholder));
+        String attribute = element.getAttribute("placeholder");
+        logger.debug("Placeholder 'Номер телефона': {}", attribute);
+        return attribute;
     }
 
     public String getDomashniyInternetContractPlaceholder() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(domashniyInternetContractPlaceholder));
-        return driver.findElement(domashniyInternetContractPlaceholder).getAttribute("placeholder");
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(domashniyInternetContractPlaceholder));
+        String attribute = element.getAttribute("placeholder");
+        logger.debug("Placeholder 'Номер договора' (Домашний интернет): {}", attribute);
+        return attribute;
     }
 
     public String getRassrochkaContractPlaceholder() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(rassrochkaContractPlaceholder));
-        return driver.findElement(rassrochkaContractPlaceholder).getAttribute("placeholder");
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(rassrochkaContractPlaceholder));
+        String attribute = element.getAttribute("placeholder");
+        logger.debug("Placeholder 'Номер договора' (Рассрочка): {}", attribute);
+        return attribute;
     }
 
     public String getZadolzhennostAccountNumberPlaceholder() {
-        new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(zadolzhennostAccountNumberPlaceholder));
-        return driver.findElement(zadolzhennostAccountNumberPlaceholder).getAttribute("placeholder");
+        WebElement element = new WebDriverWait(driver, DEFAULT_TIMEOUT).until(ExpectedConditions.visibilityOfElementLocated(zadolzhennostAccountNumberPlaceholder));
+        String attribute = element.getAttribute("placeholder");
+        logger.debug("Placeholder 'Номер лицевого счёта' (Задолженность): {}", attribute);
+        return attribute;
     }
+
 }

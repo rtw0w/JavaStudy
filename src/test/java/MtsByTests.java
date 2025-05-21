@@ -28,7 +28,6 @@ public class MtsByTests {
     private final String BASE_URL = "https://www.mts.by/";
     private org.HomePage homePage;
     private org.PaymentPage paymentPage;
-    private Object SeverityLevel;
 
     @BeforeAll
     @Step("Настройка ChromeDriver")
@@ -45,7 +44,10 @@ public class MtsByTests {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get(BASE_URL);
         logger.info("Открыт сайт: {}", BASE_URL);
+
+        // **Принимаем Cookie**
         acceptCookies();
+
         homePage = new org.HomePage(driver);
         paymentPage = new org.PaymentPage(driver);
     }
@@ -141,12 +143,10 @@ public class MtsByTests {
         homePage.enterPhoneNumber("297777777");
         homePage.clickContinueButton();
 
-        // **Ожидаем загрузку страницы оплаты**
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[contains(text(), 'Сумма пополнения')]")));
         logger.info("Страница оплаты загружена.");
 
-        // Проверки на странице оплаты
         assertNotNull(paymentPage.getPaymentAmountTitle(), "Не отображается заголовок 'Сумма пополнения'");
         assertEquals("+375297777777", paymentPage.getPhoneNumberDisplay(), "Неверный номер телефона");
         assertEquals("Сумма пополнения", paymentPage.getAmountFieldPlaceholder(), "Неверный placeholder для суммы пополнения");
